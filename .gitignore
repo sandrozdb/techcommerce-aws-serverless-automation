@@ -1,0 +1,12 @@
+node_modules/
+.aws-sam/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+coverage/
+*.zip
+*.pem
+*.key
+__pycache__/
