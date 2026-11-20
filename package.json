@@ -1,0 +1,20 @@
+{
+  "name": "techcommerce-aws-serverless-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Automação de pedidos e relatórios com AWS Lambda, EventBridge, Scheduler, S3 e CloudWatch.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/core/order.mjs && node --check src/core/report.mjs && node --check src/lambdas/validar-pedido.mjs && node --check src/lambdas/gerar-relatorio.mjs && node --check scripts/enviar-pedido.mjs",
+    "demo:local": "node scripts/demo-local.mjs",
+    "event:valid": "node scripts/enviar-pedido.mjs examples/pedido-valido.json",
+    "event:invalid": "node scripts/enviar-pedido.mjs examples/pedido-invalido.json"
+  },
+  "dependencies": {
+    "@aws-sdk/client-eventbridge": "^3.900.0",
+    "@aws-sdk/client-s3": "^3.900.0"
+  },
+  "license": "MIT"
+}

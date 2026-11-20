@@ -1,0 +1,8 @@
+{
+  "orderId": "PED-2026-001",
+  "customerId": "CLIENTE-DEMO-001",
+  "items": [
+    { "sku": "FONE-BT-001", "quantity": 2, "unitPrice": 89.90 },
+    { "sku": "CABO-USB-002", "quantity": 1, "unitPrice": 29.50 }
+  ]
+}

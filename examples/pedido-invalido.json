@@ -1,0 +1,7 @@
+{
+  "orderId": "PED-2026-002",
+  "customerId": "CLIENTE-DEMO-002",
+  "items": [
+    { "sku": "CABO-USB-002", "quantity": 0, "unitPrice": -10 }
+  ]
+}

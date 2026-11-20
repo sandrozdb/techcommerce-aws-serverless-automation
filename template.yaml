@@ -1,0 +1,156 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: TechCommerce - automação serverless de pedidos e relatórios (projeto acadêmico).
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures: [arm64]
+    Timeout: 25
+    MemorySize: 256
+    Environment:
+      Variables:
+        BUCKET_NAME: !Ref DataBucket
+
+Resources:
+  DataBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub '${AWS::StackName}-${AWS::AccountId}-${AWS::Region}'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpirarDadosDemonstrativos
+            Status: Enabled
+            ExpirationInDays: 7
+
+  OrderEventBus:
+    Type: AWS::Events::EventBus
+    Properties:
+      Name: techcommerce-events
+
+  ValidateOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-validar-pedido'
+      CodeUri: .
+      Handler: src/lambdas/validar-pedido.handler
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Sid: GravarSomentePedidosValidados
+              Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub '${DataBucket.Arn}/orders/validated/*'
+
+  GenerateReportFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-gerar-relatorio'
+      CodeUri: .
+      Handler: src/lambdas/gerar-relatorio.handler
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Sid: ListarPedidos
+              Effect: Allow
+              Action: s3:ListBucket
+              Resource: !GetAtt DataBucket.Arn
+              Condition:
+                StringLike:
+                  s3:prefix:
+                    - orders/validated/
+                    - orders/validated/*
+            - Sid: LerPedidos
+              Effect: Allow
+              Action: s3:GetObject
+              Resource: !Sub '${DataBucket.Arn}/orders/validated/*'
+            - Sid: SalvarRelatorios
+              Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub '${DataBucket.Arn}/reports/*'
+
+  OrderCreatedRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${AWS::StackName}-pedido-criado'
+      Description: Aciona automaticamente a Lambda quando chega um evento PedidoCriado.
+      EventBusName: !Ref OrderEventBus
+      EventPattern:
+        source:
+          - techcommerce.orders
+        detail-type:
+          - PedidoCriado
+      State: ENABLED
+      Targets:
+        - Id: ValidarPedidoLambda
+          Arn: !GetAtt ValidateOrderFunction.Arn
+
+  AllowEventBridgeInvoke:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ValidateOrderFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt OrderCreatedRule.Arn
+
+  SchedulerInvokeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: scheduler.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: InvokeOnlyTechCommerceReport
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt GenerateReportFunction.Arn
+
+  ReportSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: !Sub '${AWS::StackName}-relatorio-5min'
+      Description: Agendamento de demonstração - iniciar só na apresentação e desativar depois.
+      ScheduleExpression: rate(5 minutes)
+      FlexibleTimeWindow:
+        Mode: 'OFF'
+      State: DISABLED
+      Target:
+        Arn: !GetAtt GenerateReportFunction.Arn
+        RoleArn: !GetAtt SchedulerInvokeRole.Arn
+        Input: '{"source":"techcommerce.scheduler","detail-type":"GerarRelatorio"}'
+        RetryPolicy:
+          MaximumRetryAttempts: 2
+          MaximumEventAgeInSeconds: 3600
+
+Outputs:
+  EventBusName:
+    Description: Envie eventos PedidoCriado para este barramento.
+    Value: !Ref OrderEventBus
+  BucketName:
+    Description: Bucket privado com pedidos e relatórios.
+    Value: !Ref DataBucket
+  ValidateOrderName:
+    Value: !Ref ValidateOrderFunction
+  GenerateReportName:
+    Value: !Ref GenerateReportFunction
+  ScheduleName:
+    Description: Habilite apenas durante o teste; desabilitado por padrão.
+    Value: !Ref ReportSchedule
