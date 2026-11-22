@@ -14,7 +14,7 @@
 
 **Projeto acadêmico | Cloud Computing for Software Development | UniFECAF**
 
-**Status:** ✅ Aplicação implantada e os dois fluxos de automação validados na AWS em 22/11/2026. **Relatório acadêmico e vídeo pitch ainda em preparação.**
+**Status:** ✅ Aplicação implantada e os dois fluxos validados na AWS em 22/11/2026. **Vídeo pitch publicado; relatório acadêmico preparado para a entrega.**
 
 </div>
 
@@ -176,7 +176,7 @@ A execução dos dois fluxos foi verificada com logs e leitura dos objetos JSON 
 
 📸 **[Relação das oito capturas de evidência](docs/evidencias/README.md)**
 
-> **Transparência:** a implantação e a execução na AWS foram comprovadas em ambiente de demonstração com dados fictícios. As capturas foram coletadas para o relatório acadêmico e **ainda não foram adicionadas à pasta `docs/evidencias/` do GitHub**. O vídeo pitch e a entrega do PDF são etapas acadêmicas pendentes. Não se trata de sistema comercial em produção.
+> **Transparência:** a implantação e a execução na AWS foram comprovadas em ambiente de demonstração com dados fictícios. As capturas foram coletadas para o relatório acadêmico e **ainda não foram adicionadas à pasta `docs/evidencias/` do GitHub**. O vídeo pitch está publicado; a validação de acesso, a verificação dos critérios da disciplina e a submissão acadêmica permanecem sob responsabilidade do autor. Não se trata de sistema comercial em produção.
 
 ## 🧠 Aprendizados
 
@@ -185,6 +185,12 @@ A execução dos dois fluxos foi verificada com logs e leitura dos objetos JSON 
 - **Serverless:** a AWS gerencia a execução e a escala de funções, sem provisionar servidores dedicados para essas tarefas.
 - **Observabilidade:** os logs permitem rastrear a automação.
 - **Custos:** cobrança por uso pode ser interessante em cargas variáveis, mas depende de volume, configuração e comparação econômica.
+
+## 🎥 Vídeo pitch e relatório acadêmico
+
+- **Vídeo publicado:** [Assistir ao TechCommerce no YouTube Shorts](https://www.youtube.com/shorts/Zw6rOMZwtXU).
+- **Relatório acadêmico:** versão final preparada com as oito capturas da AWS, a URL do repositório e o link do vídeo.
+- **Verificação de entrega:** confirmar duração e acesso ao vídeo sem login e revisar se a apresentação atende à exigência de demonstração prática. A submissão ao ambiente acadêmico não foi realizada aqui.
 
 ## 📚 Documentação técnica
 
