@@ -21,9 +21,9 @@
 - [ ] Produzir justificativa com evidências reais
 
 ## Vídeo — 25%
-- [ ] Gravar pitch de até quatro minutos com demonstração real
-- [ ] Publicar em modo não listado no YouTube
+- [ ] Revisar se o vídeo pitch publicado (apresentação em câmera) atende à duração máxima de 4 minutos e ao requisito de demonstração prática
+- [ ] Confirmar que o vídeo publicado no YouTube está em modo não listado ou com acesso permitido (link informado pelo autor)
 - [ ] Verificar o link em janela anônima
-- [ ] Inserir o link no PDF
+- [x] Inserir o link do vídeo no PDF final — `https://www.youtube.com/shorts/Zw6rOMZwtXU`
 
-> Os itens marcados na parte prática refletem a implantação e os testes reais realizados em 22/11/2026. A organização das capturas no repositório, o PDF final e o vídeo seguem como atividades de documentação/entrega.
+> Os itens marcados na parte prática refletem a implantação e os testes reais realizados em 22/11/2026. As capturas estão incluídas no PDF final, que também contém o link do vídeo. A validação externa do link e a submissão continuam pendentes.
