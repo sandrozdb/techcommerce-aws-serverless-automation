@@ -14,7 +14,7 @@
 
 **Projeto acadêmico | Cloud Computing for Software Development | UniFECAF**
 
-**Status:** 🟡 Código e infraestrutura preparados • **implantação AWS e evidências pendentes**
+**Status:** ✅ Aplicação implantada e os dois fluxos de automação validados na AWS em 22/11/2026. **Relatório acadêmico e vídeo pitch ainda em preparação.**
 
 </div>
 
@@ -158,19 +158,25 @@ npm test
 - Nenhuma credencial AWS versionada.
 - Scheduler começa **desabilitado** e deve ser habilitado apenas para a demonstração.
 
-## 📊 Evidências — a serem adicionadas
+## 📊 Resultados reais e evidências — 22/11/2026
 
-| Etapa | O que comprovar |
+A aplicação foi implantada via AWS SAM na stack `techcommerce-serverless`, região `sa-east-1`.
+
+| Verificação | Resultado observado |
 |---|---|
-| Lambda | Funções criadas na conta AWS |
-| EventBridge | Regra e evento publicados |
-| Validação | `ORDER_VALIDATED` no CloudWatch + objeto no S3 |
-| Scheduler | Horário e frequência configurados |
-| Relatório | `REPORT_GENERATED` no CloudWatch + relatório no S3 |
+| Testes locais | 13 aprovados, 0 falhas; `sam validate --lint` e `sam build` aprovados |
+| Publicação de evento | `PedidoCriado` aceito no barramento `techcommerce-events`; pedido `PED-2026-001` |
+| Lambda de pedidos | CloudWatch registrou `ORDER_VALIDATED` em 22/11/2026, às 14:20:44 UTC |
+| Pedido no S3 | `orders/validated/PED-2026-001.json`, com `status: VALIDADO` e total de R$ 209,30 |
+| Agendamento | `rate(5 minutes)`; execução automática comprovada e posteriormente desabilitada |
+| Lambda de relatórios | CloudWatch registrou `REPORT_GENERATED` em 22/11/2026, às 14:24:33 UTC |
+| Relatório no S3 | `reports/summary-2026-11-22T14-24-33-473Z.json`, com 1 pedido, 3 itens, R$ 209,30 e 0 duplicatas |
 
-📸 **[Checklist de evidências](docs/evidencias/README.md)**
+A execução dos dois fluxos foi verificada com logs e leitura dos objetos JSON no S3. O Scheduler permanece **DISABLED** após a demonstração para evitar execuções desnecessárias.
 
-> **Transparência:** a existência do código no GitHub não equivale à execução em nuvem. O status mudará para concluído somente após os testes reais e o registro das evidências.
+📸 **[Relação das oito capturas de evidência](docs/evidencias/README.md)**
+
+> **Transparência:** a implantação e a execução na AWS foram comprovadas em ambiente de demonstração com dados fictícios. As capturas foram coletadas para o relatório acadêmico e **ainda não foram adicionadas à pasta `docs/evidencias/` do GitHub**. O vídeo pitch e a entrega do PDF são etapas acadêmicas pendentes. Não se trata de sistema comercial em produção.
 
 ## 🧠 Aprendizados
 
