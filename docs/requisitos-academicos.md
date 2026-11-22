@@ -14,10 +14,10 @@
 - [x] Template SAM e regra de encaminhamento
 - [x] Definição de agendamento `rate(5 minutes)`
 - [x] Testes automatizados locais
-- [ ] Implantar recursos reais na AWS
-- [ ] Comprovar publicação de evento e execução Lambda no CloudWatch
-- [ ] Comprovar execução automática do Scheduler
-- [ ] Capturar logs, telas da AWS e arquivos no S3
+- [x] Implantar recursos reais na AWS — stack `techcommerce-serverless` em `sa-east-1`
+- [x] Comprovar publicação de evento e execução Lambda no CloudWatch — `ORDER_VALIDATED`
+- [x] Comprovar execução automática do Scheduler — `REPORT_GENERATED` e Scheduler desabilitado após teste
+- [x] Capturar logs, telas da AWS e arquivos no S3 — oito capturas coletadas para o relatório
 - [ ] Produzir justificativa com evidências reais
 
 ## Vídeo — 25%
@@ -26,4 +26,4 @@
 - [ ] Verificar o link em janela anônima
 - [ ] Inserir o link no PDF
 
-> Os itens marcados indicam preparação do **código**, não deploy da nuvem.
+> Os itens marcados na parte prática refletem a implantação e os testes reais realizados em 22/11/2026. A organização das capturas no repositório, o PDF final e o vídeo seguem como atividades de documentação/entrega.
